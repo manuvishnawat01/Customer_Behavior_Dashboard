@@ -1,0 +1,148 @@
+/*
+===============================================================================
+        FOOD DELIVERY ANALYTICS - POWER BI DAX MEASURES LIBRARY
+===============================================================================
+Author: Food Delivery Analytics Project Team
+Date: August 2026
+Database: FoodDeliveryAnalytics
+Table: FoodOrders
+===============================================================================
+*/
+
+// ============================================================================
+// 1. FINANCIAL MEASURES
+// ============================================================================
+
+Total Net Revenue = 
+CALCULATE(
+    SUM(FoodOrders[net_revenue]),
+    FoodOrders[order_status] = "Delivered"
+)
+
+Total Gross Revenue = 
+CALCULATE(
+    SUM(FoodOrders[gross_revenue]),
+    FoodOrders[order_status] = "Delivered"
+)
+
+Average Order Value (AOV) = 
+CALCULATE(
+    AVERAGE(FoodOrders[order_value]),
+    FoodOrders[order_status] = "Delivered"
+)
+
+Total Discount Amount = 
+CALCULATE(
+    SUM(FoodOrders[discount_amount]),
+    FoodOrders[order_status] = "Delivered"
+)
+
+Discount % of Revenue = 
+DIVIDE([Total Discount Amount], [Total Gross Revenue], 0)
+
+Net Margin % = 
+DIVIDE([Total Net Revenue], [Total Gross Revenue], 0)
+
+
+// ============================================================================
+// 2. OPERATIONAL & DELIVERY MEASURES
+// ============================================================================
+
+Total Orders = COUNTROWS(FoodOrders)
+
+Delivered Orders = 
+CALCULATE(
+    COUNTROWS(FoodOrders),
+    FoodOrders[order_status] = "Delivered"
+)
+
+Cancelled Orders = 
+CALCULATE(
+    COUNTROWS(FoodOrders),
+    FoodOrders[order_status] = "Cancelled"
+)
+
+Cancellation Rate % = 
+DIVIDE([Cancelled Orders], [Total Orders], 0)
+
+Average Delivery Time (Min) = 
+CALCULATE(
+    AVERAGE(FoodOrders[delivery_time_min]),
+    FoodOrders[order_status] = "Delivered"
+)
+
+Average Distance (KM) = 
+CALCULATE(
+    AVERAGE(FoodOrders[distance_km]),
+    FoodOrders[order_status] = "Delivered"
+)
+
+Late Deliveries (>45 Min) = 
+CALCULATE(
+    COUNTROWS(FoodOrders),
+    FoodOrders[order_status] = "Delivered",
+    FoodOrders[delivery_time_min] > 45
+)
+
+Late Delivery Rate % = 
+DIVIDE([Late Deliveries (>45 Min)], [Delivered Orders], 0)
+
+
+// ============================================================================
+// 3. CUSTOMER & SATISFACTION MEASURES
+// ============================================================================
+
+Average Customer Rating = 
+CALCULATE(
+    AVERAGE(FoodOrders[customer_rating]),
+    FoodOrders[order_status] = "Delivered"
+)
+
+Total Unique Customers = 
+CALCULATE(
+    DISTINCTCOUNT(FoodOrders[customer_id]),
+    FoodOrders[order_status] = "Delivered"
+)
+
+Repeat Customers = 
+CALCULATE(
+    DISTINCTCOUNT(FoodOrders[customer_id]),
+    FoodOrders[customer_order_count] > 1,
+    FoodOrders[order_status] = "Delivered"
+)
+
+Repeat Customer Rate % = 
+DIVIDE([Repeat Customers], [Total Unique Customers], 0)
+
+Membership Revenue = 
+CALCULATE(
+    [Total Net Revenue],
+    FoodOrders[membership] = TRUE()
+)
+
+Membership Revenue Share % = 
+DIVIDE([Membership Revenue], [Total Net Revenue], 0)
+
+
+// ============================================================================
+// 4. PROMOTIONAL & SEGMENTATION MEASURES
+// ============================================================================
+
+Promo Orders = 
+CALCULATE(
+    COUNTROWS(FoodOrders),
+    FoodOrders[promo_used] = TRUE(),
+    FoodOrders[order_status] = "Delivered"
+)
+
+Promo Adoption Rate % = 
+DIVIDE([Promo Orders], [Delivered Orders], 0)
+
+Loyal Customer Revenue = 
+CALCULATE(
+    [Total Net Revenue],
+    FoodOrders[customer_segment] = "Loyal"
+)
+
+Loyal Revenue Share % = 
+DIVIDE([Loyal Customer Revenue], [Total Net Revenue], 0)

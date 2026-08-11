@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Behavior Dashboard — Food Delivery Analytics</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    
+    <!-- Top Pink Header Banner -->
+    <header class="header-banner">
+      <h1 class="dashboard-title">Customer Behavior Dashboard</h1>
+      <button class="export-btn" id="exportBtn">📥 Export Data</button>
+    </header>
+
+    <!-- Main Layout Grid -->
+    <div class="main-layout">
+      
+      <!-- Left Filter Panel -->
+      <aside class="filter-panel">
+        
+        <!-- Subscription Status (Membership) -->
+        <div class="filter-group">
+          <label class="filter-label">Subscription Status</label>
+          <div class="pill-group" id="filterMembershipGroup">
+            <button class="pill-btn" data-val="No">No</button>
+            <button class="pill-btn" data-val="Yes">Yes</button>
+            <button class="pill-btn active" data-val="All">All</button>
+          </div>
+        </div>
+
+        <!-- Gender -->
+        <div class="filter-group">
+          <label class="filter-label">Gender</label>
+          <div class="pill-group" id="filterGenderGroup">
+            <button class="pill-btn" data-val="Female">Female</button>
+            <button class="pill-btn" data-val="Male">Male</button>
+            <button class="pill-btn active" data-val="All">All</button>
+          </div>
+        </div>
+
+        <!-- Category (Cuisine) -->
+        <div class="filter-group">
+          <label class="filter-label">Category</label>
+          <div class="pill-stack" id="filterCuisineStack">
+            <button class="pill-stack-btn active" data-val="All">All Categories</button>
+            <button class="pill-stack-btn" data-val="Biryani">Biryani</button>
+            <button class="pill-stack-btn" data-val="Chinese">Chinese</button>
+            <button class="pill-stack-btn" data-val="Fast Food">Fast Food</button>
+            <button class="pill-stack-btn" data-val="Pizza">Pizza</button>
+            <button class="pill-stack-btn" data-val="North Indian">North Indian</button>
+          </div>
+        </div>
+
+        <!-- Shipping Type (City Location) -->
+        <div class="filter-group">
+          <label class="filter-label">City Location</label>
+          <div class="radio-group">
+            <label class="radio-item">
+              <input type="radio" name="city" value="All" checked> All Cities
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="city" value="Delhi"> Delhi
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="city" value="Noida"> Noida
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="city" value="Gurugram"> Gurugram
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="city" value="Jaipur"> Jaipur
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="city" value="Lucknow"> Lucknow
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="city" value="Chandigarh"> Chandigarh
+            </label>
+          </div>
+        </div>
+
+        <button class="reset-btn" id="resetAllFiltersBtn">Reset All Filters</button>
+      </aside>
+
+      <!-- Right Dashboard Content Area -->
+      <main class="dashboard-content">
+        
+        <!-- Top 3 KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpiTotalOrders">4.8K</div>
+            <div class="kpi-lbl">Number of Customers</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpiAvgAmount">₹671.63</div>
+            <div class="kpi-lbl">Average Purchase Amount</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpiAvgRating">4.00</div>
+            <div class="kpi-lbl">Average Review Rating</div>
+          </div>
+        </div>
+
+        <!-- Middle Charts Row (3 Cards) -->
+        <div class="charts-row-3">
+          <div class="chart-card">
+            <h3 class="chart-title">% of Customers by Subscription Status</h3>
+            <div class="chart-box">
+              <canvas id="chartMembershipDonut"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h3 class="chart-title">Revenue by Category</h3>
+            <div class="chart-box">
+              <canvas id="chartRevenueByCuisine"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h3 class="chart-title">Sales by Category</h3>
+            <div class="chart-box">
+              <canvas id="chartSalesByCuisine"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Charts Row (2 Cards) -->
+        <div class="charts-row-2">
+          <div class="chart-card">
+            <h3 class="chart-title">Revenue by Age Group</h3>
+            <div class="chart-box">
+              <canvas id="chartRevenueByAge"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h3 class="chart-title">Sales by Age Group</h3>
+            <div class="chart-box">
+              <canvas id="chartSalesByAge"></canvas>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

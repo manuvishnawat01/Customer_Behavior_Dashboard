@@ -1,0 +1,22 @@
+# Operating System temporary files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python / Environment
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+env/
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+*.swp
+
+# Temporary files
+*.tmp
+*.log
